@@ -2,40 +2,59 @@
 
 Public Class Form1
 
-    Protected ReadOnly ping As New System.Net.NetworkInformation.Ping
-    Protected latency As String
+    Protected ReadOnly ping As New Ping
+    Protected latency As Long
     Protected address As String = "8.8.8.8"
     Protected niFont As New Font("Tahoma", 16, FontStyle.Regular, GraphicsUnit.Pixel)
-    Protected niBrush As New SolidBrush(Color.White)
+    Protected niBrushColor As Color = Color.White
+    Protected niBrush As New SolidBrush(niBrushColor)
+    Protected bitmapText As Bitmap = New Bitmap(20, 20)
+    Protected niGraphics As Graphics = Graphics.FromImage(bitmapText)
+    Protected niIcon As IntPtr
 
-    Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
+    Private Sub Timer_Tick(sender As Object, e As EventArgs) Handles Timer.Tick
         latency = GetLatency(address)
-        NotifyIcon1.Icon = CreateTextIcon(latency)
-        NotifyIcon1.Text = latency
+        NotifyIcon.Icon = CreateTextIcon(latency)
     End Sub
 
     Protected Function GetLatency(ByRef hostNameOrAddress As String)
         Return ping.Send(hostNameOrAddress).RoundtripTime
     End Function
 
-    Protected Function CreateTextIcon(ByRef msLatency As String)
-        If msLatency >= 100 Then
-            msLatency = 99
-        End If
-        If msLatency <= 60 Then
-            niBrush = New SolidBrush(Color.Lime)
-        ElseIf msLatency > 60 AndAlso msLatency <= 80 Then
-            niBrush = New SolidBrush(Color.Orange)
-        ElseIf msLatency > 80 AndAlso msLatency < 100 Then
-            niBrush = New SolidBrush(Color.Red)
-        End If
-        Dim bitmapText = New Bitmap(20, 20)
-        Dim g = Graphics.FromImage(bitmapText)
-        Dim hIcon
-        g.Clear(Color.Transparent)
-        g.TextRenderingHint = Drawing.Text.TextRenderingHint.SingleBitPerPixelGridFit
-        g.DrawString(msLatency, niFont, niBrush, 0, 0)
-        hIcon = bitmapText.GetHicon()
-        Return Icon.FromHandle(hIcon)
+    Protected Function CreateTextIcon(ByRef msLatency As Long)
+        PrepareNotifyIcon(msLatency)
+        Return Icon.FromHandle(niIcon)
+    End Function
+
+    Protected Sub PrepareNotifyIcon(ByRef msLatency As Long)
+        niBrushColor = SetBrushColor(msLatency)
+        niBrush = New SolidBrush(niBrushColor)
+        niGraphics.Clear(Color.Transparent)
+        niGraphics.TextRenderingHint = Drawing.Text.TextRenderingHint.SingleBitPerPixelGridFit
+        niGraphics.DrawString(Format(msLatency, "00"), niFont, niBrush, 0, 0)
+        niIcon = bitmapText.GetHicon()
+    End Sub
+
+    Protected Function SetBrushColor(ByRef msLatency As Long)
+        msLatency = SetMax(msLatency)
+        Select Case msLatency
+            Case <= 60
+                Return Color.Lime
+            Case > 60
+                Return Color.Orange
+            Case > 80
+                Return Color.Red
+            Case Else
+                Return Color.White
+        End Select
+    End Function
+
+    Protected Function SetMax(ByRef msLatency As Long)
+        Select Case msLatency
+            Case > 100
+                Return 99
+            Case Else
+                Return msLatency
+        End Select
     End Function
 End Class

@@ -23,19 +23,18 @@ Partial Class Form1
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
-        Me.NotifyIcon1 = New System.Windows.Forms.NotifyIcon(Me.components)
+        Me.Timer = New System.Windows.Forms.Timer(Me.components)
+        Me.NotifyIcon = New System.Windows.Forms.NotifyIcon(Me.components)
         Me.SuspendLayout()
         '
-        'Timer1
+        'Timer
         '
-        Me.Timer1.Enabled = True
-        Me.Timer1.Interval = 1000
+        Me.Timer.Enabled = True
+        Me.Timer.Interval = 1000
         '
-        'NotifyIcon1
+        'NotifyIcon
         '
-        Me.NotifyIcon1.Text = "NotifyIcon1"
-        Me.NotifyIcon1.Visible = True
+        Me.NotifyIcon.Visible = True
         '
         'Form1
         '
@@ -50,6 +49,6 @@ Partial Class Form1
         Me.ResumeLayout(False)
 
     End Sub
-    Friend WithEvents Timer1 As Timer
-    Friend WithEvents NotifyIcon1 As NotifyIcon
+    Friend WithEvents Timer As Timer
+    Friend WithEvents NotifyIcon As NotifyIcon
 End Class
