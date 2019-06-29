@@ -12,6 +12,11 @@ Public Class Form1
     Protected niGraphics As Graphics = Graphics.FromImage(bitmapText)
     Protected niIcon As IntPtr
 
+    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.FormBorderStyle = FormBorderStyle.SizableToolWindow
+        Me.ShowInTaskbar = False
+    End Sub
+
     Private Sub Timer_Tick(sender As Object, e As EventArgs) Handles Timer.Tick
         latency = GetLatency(address)
         NotifyIcon.Icon = CreateTextIcon(latency)
