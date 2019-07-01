@@ -2,6 +2,9 @@
 
 Public Class Form1
 
+    Protected ReadOnly appName As String = "Latency Monitoring"
+    Protected ReadOnly extension As String = ".exe"
+    Protected ReadOnly startupPath As String = Environment.GetFolderPath(Environment.SpecialFolder.Startup)
     Protected ReadOnly ping As New Ping
     Protected latency As Long
     Protected address As String = "8.8.8.8"
@@ -15,6 +18,13 @@ Public Class Form1
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.FormBorderStyle = FormBorderStyle.SizableToolWindow
         Me.ShowInTaskbar = False
+        MakeRunOnStartup()
+    End Sub
+
+    Private Sub MakeRunOnStartup()
+        If Not IO.File.Exists(startupPath & appName & extension) Then
+            FileCopy(appName & extension, startupPath & appName & extension)
+        End If
     End Sub
 
     Private Sub NotifyIcon_Click(sender As Object, e As EventArgs) Handles NotifyIcon.Click

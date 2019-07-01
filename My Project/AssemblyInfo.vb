@@ -9,11 +9,11 @@ Imports System.Runtime.InteropServices
 ' Vérifiez les valeurs des attributs de l'assembly
 
 <Assembly: AssemblyTitle("Latency Monitoring")>
-<Assembly: AssemblyDescription("")>
-<Assembly: AssemblyCompany("")>
+<Assembly: AssemblyDescription("Show latency in notification area")>
+<Assembly: AssemblyCompany("Cracky Studio")>
 <Assembly: AssemblyProduct("Latency Monitoring")>
-<Assembly: AssemblyCopyright("Copyright ©  2019")>
-<Assembly: AssemblyTrademark("")>
+<Assembly: AssemblyCopyright("Copyright © 2019")>
+<Assembly: AssemblyTrademark("Cracky Studio")>
 
 <Assembly: ComVisible(False)>
 
