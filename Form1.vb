@@ -4,7 +4,7 @@ Public Class Form1
 
     Protected ReadOnly appName As String = "Latency Monitoring"
     Protected ReadOnly extension As String = ".exe"
-    Protected ReadOnly startupPath As String = Environment.GetFolderPath(Environment.SpecialFolder.Startup)
+    Protected ReadOnly startupPath As String = Environment.GetFolderPath(Environment.SpecialFolder.Startup) & "\"
     Protected ReadOnly ping As New Ping
     Protected latency As Long
     Protected address As String = "8.8.8.8"
