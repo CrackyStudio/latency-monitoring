@@ -17,13 +17,28 @@ Public Class Form1
         Me.ShowInTaskbar = False
     End Sub
 
+    Private Sub NotifyIcon_Click(sender As Object, e As EventArgs) Handles NotifyIcon.Click
+        Application.Exit()
+    End Sub
+
     Private Sub Timer_Tick(sender As Object, e As EventArgs) Handles Timer.Tick
         latency = GetLatency(address)
-        NotifyIcon.Icon = CreateTextIcon(latency)
+        If latency > 0 Then
+            NotifyIcon.Icon = CreateTextIcon(latency)
+            NotifyIcon.Text = ""
+        Else
+            NotifyIcon.Icon = My.Resources.offline
+            NotifyIcon.Text = "No connection"
+        End If
     End Sub
 
     Protected Function GetLatency(ByRef hostNameOrAddress As String)
-        Return ping.Send(hostNameOrAddress).RoundtripTime
+        Try
+            Return ping.Send(hostNameOrAddress).RoundtripTime
+        Catch ex As Exception
+            Return -1
+        End Try
+
     End Function
 
     Protected Function CreateTextIcon(ByRef msLatency As Long)
